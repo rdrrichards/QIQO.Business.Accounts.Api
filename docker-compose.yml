@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  qiqo.business.accounts.api:
+    image: qiqo.business.accounts.api
+    build:
+      context: ./QIQO.Business.Accounts.Api
+      dockerfile: Dockerfile
