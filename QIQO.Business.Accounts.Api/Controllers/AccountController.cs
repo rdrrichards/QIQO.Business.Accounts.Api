@@ -5,7 +5,7 @@ using QIQO.Business.Accounts.Api.ViewModels;
 namespace QIQO.Business.Accounts.Api.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Account")]
+    [Route("api/account")]
     public class AccountController : Controller
     {
         // GET: api/Account
@@ -22,7 +22,7 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpGet("{id}", Name = "Get")]
         public AccountViewModel Get(int id)
         {
-            return new AccountViewModel();
+            return new AccountViewModel { Account = new Models.Account { AccountName = "Account #1" } };
         }
 
         // POST: api/Account
