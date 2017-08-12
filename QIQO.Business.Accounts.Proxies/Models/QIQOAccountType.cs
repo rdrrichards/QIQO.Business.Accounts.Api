@@ -1,4 +1,4 @@
-﻿namespace QIQO.Business.Accounts.Api.Models
+﻿namespace QIQO.Business.Accounts.Proxies.Models
 {
     public enum QIQOAccountType
     {

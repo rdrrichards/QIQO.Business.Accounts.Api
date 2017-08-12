@@ -1,9 +1,10 @@
-﻿using System;
+﻿using QIQO.Business.Core.Contracts;
+using System;
 using System.Collections.Generic;
 
-namespace QIQO.Business.Accounts.Api.Models
+namespace QIQO.Business.Accounts.Proxies.Models
 {
-    public class Account
+    public class Account : IModel
     {
         public int AccountKey { get; set; }
         public int CompanyKey { get; set; }

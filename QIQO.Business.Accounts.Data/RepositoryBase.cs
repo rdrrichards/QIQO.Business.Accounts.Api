@@ -1,4 +1,6 @@
 ﻿using QIQO.Business.Core.Contracts;
+using QIQO.Business.Core.Logging;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 
@@ -25,19 +27,41 @@ namespace QIQO.Business.Accounts.Data
         //          This would entail creating a mapper interface, which shouldn't be difficult
         protected IEnumerable<T> MapRows(DbDataReader dr)
         {
-            var rows = new List<T>();
-            while (dr.Read())
-                rows.Add(Mapper.Map(dr));
-            dr.Dispose();
-            return rows;
+            if (!dr.IsClosed)
+                try
+                {
+                    var rows = new List<T>();
+                    while (dr.Read())
+                        rows.Add(Mapper.Map(dr));
+                    dr.Dispose();
+                    return rows;
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex.Message);
+                    Log.Error(ex.StackTrace);
+                    throw;
+                }
+            else return new List<T>();
         }
 
         protected T MapRow(DbDataReader dr)
         {
-            if (dr.Read())
-                return Mapper.Map(dr);
-            else
-                return new T();
+            if (!dr.IsClosed)
+                try
+                {
+                    if (dr.Read())
+                        return Mapper.Map(dr);
+                    else
+                        return new T();
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex.Message);
+                    Log.Error(ex.StackTrace);
+                    throw;
+                }
+            else return new T();
             //var row = new T();
             //while (dr.Read())
             //    row = Mapper.Map(dr);

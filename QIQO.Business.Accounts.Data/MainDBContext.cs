@@ -12,34 +12,24 @@ namespace QIQO.Business.Accounts.Data
     {
         public MainDBContext()
         {
-            conString = @"Data Source=RDRRL8\D1;Integrated Security=SSPI;Database=DevII;Application Name=QIQO.Business.Accounts.MicroService";
+            _conString = @"Data Source=tcp:192.168.1.65,55403;User ID=businessuser;Password=businessuser512;Database=DevII;Application Name=QIQOBusinessAccountsMicroService";
             //ConfigurationManager.ConnectionStrings["Main"].ConnectionString;
-            con = new SqlConnection(conString);
+            _con = new SqlConnection(_conString);
         }
 
         public override int ExecuteProcedureNonQuery(string procedureName, IEnumerable<SqlParameter> parameters)
         {
-            SqlCommand cmd = new SqlCommand(procedureName, con);
-            cmd.CommandType = CommandType.StoredProcedure;
+            var cmd = new SqlCommand(procedureName, _con) { CommandType = CommandType.StoredProcedure };
             int ret_val;
 
-            foreach (SqlParameter sparam in parameters)
-            {
-                SqlParameter param = new SqlParameter();
-                //Log.Info(sparam.ParameterName);
-                param.ParameterName = sparam.ParameterName;
-                param.Value = sparam.Value;
-                param.DbType = sparam.DbType;
-                param.Direction = sparam.Direction;
-                param.TypeName = sparam.TypeName;
-                cmd.Parameters.Add(param);
-            }
+            foreach (var sparam in parameters)
+                cmd.Parameters.Add(BuildParameter(sparam));
 
             try
             {
-                con.Open();
+                _con.Open();
                 ret_val = cmd.ExecuteNonQuery();
-                con.Close();
+                _con.Close();
                 if (cmd.Parameters["@key"] != null)
                 {
                     int key = (int)cmd.Parameters["@key"].Value;
@@ -55,7 +45,7 @@ namespace QIQO.Business.Accounts.Data
             }
             finally
             {
-                con.Close();
+                _con.Close();
             }
 
         }

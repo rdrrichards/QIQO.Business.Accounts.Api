@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace QIQO.Business.Accounts.Api.Models
+namespace QIQO.Business.Accounts.Proxies.Models
 {
     public class PersonBase
     {

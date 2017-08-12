@@ -1,4 +1,4 @@
-﻿using QIQO.Business.Accounts.Api.Models;
+﻿using QIQO.Business.Accounts.Proxies.Models;
 
 namespace QIQO.Business.Accounts.Api.ViewModels
 {

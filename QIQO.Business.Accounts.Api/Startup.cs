@@ -7,6 +7,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using QIQO.Business.Accounts.Proxies;
+using QIQO.Business.Accounts.Proxies.Clients;
+using QIQO.Business.Accounts.Data;
+using QIQO.Business.Core.Contracts;
+using QIQO.Business.Accounts.Proxies.Services;
+using QIQO.Business.Accounts.Data.Interfaces;
+using QIQO.Business.Accounts.Data.Repositories;
+using QIQO.Business.Accounts.Data.Mappers;
 
 namespace QIQO.Business.Accounts.Api
 {
@@ -27,7 +35,14 @@ namespace QIQO.Business.Accounts.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
+            services.AddScoped<IMainDBContext, MainDBContext>();
+
+            services.AddTransient<IAccountMap, AccountMap>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
+
+            services.AddTransient<IAccountEntityService, AccountEntityService>();
+            services.AddTransient<IAccountService, AccountClient>();
+
             services.AddMvc();
         }
 

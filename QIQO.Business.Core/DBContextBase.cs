@@ -8,65 +8,34 @@ namespace QIQO.Business.Core
 {
     public class DBContextBase
     {
-        protected static string conString;
-        protected SqlConnection con;
+        protected string _conString;
+        protected SqlConnection _con;
         protected SqlTransaction _trans;
 
-        public virtual void ReleaseConnection()
-        {
-            con.Close();
-        }
-
-        public virtual void BeginTransaction()
-        {
-            _trans = con.BeginTransaction();
-        }
-
-        public virtual void CommitTransaction()
-        {
-            _trans.Commit();
-        }
-
+        public virtual void ReleaseConnection() => _con.Close();
+        public virtual void BeginTransaction() => _con.BeginTransaction();
+        public virtual void CommitTransaction() => _trans.Commit();
         public virtual void Cancel()
         {
             _trans.Rollback();
-            con.Close();
+            _con.Close();
         }
 
-        public virtual void ExecuteProcedureAsReader(string procedureName, IEnumerable<SqlParameter> parameters)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual void ExecuteProcedureAsReader(string procedureName, IEnumerable<SqlParameter> parameters) => throw new NotImplementedException();
 
         public virtual int ExecuteProcedureNonQuery(string procedureName, IEnumerable<SqlParameter> parameters)
         {
-            SqlCommand cmd = new SqlCommand(procedureName, con);
-            cmd.CommandType = CommandType.StoredProcedure;
+            var cmd = new SqlCommand(procedureName, _con) { CommandType = CommandType.StoredProcedure };
             int ret_val;
 
-            foreach (SqlParameter sparam in parameters)
-            {
-                SqlParameter param = new SqlParameter();
-                //Log.Info(sparam.ParameterName);
-                param.ParameterName = sparam.ParameterName;
-                param.Value = sparam.Value;
-                param.DbType = sparam.DbType;
-                param.Direction = sparam.Direction;
-                param.TypeName = sparam.TypeName;
-                cmd.Parameters.Add(param);
-            }
+            foreach (var sparam in parameters)
+                cmd.Parameters.Add(BuildParameter(sparam));
 
             try
             {
-                con.Open();
+                _con.Open();
                 ret_val = cmd.ExecuteNonQuery();
-                con.Close();
-                //if (cmd.Parameters["@key"] != null)
-                //{
-                //    int key = (int)cmd.Parameters["@key"].Value;
-                //    if (key > ret_val)
-                //        return key;
-                //}
+                _con.Close();
                 return ret_val;
             }
             catch (Exception ex)
@@ -76,23 +45,22 @@ namespace QIQO.Business.Core
             }
             finally
             {
-                con.Close();
+                _con.Close();
             }
 
         }
 
         public virtual int ExecuteNonQuerySQLStatement(string sqlStatement)
         {
-            //throw new NotImplementedException();
             int ret_val = 0;
-            SqlCommand cmd = new SqlCommand(sqlStatement, con);
-            cmd.CommandType = CommandType.Text;
+            var cmd = new SqlCommand(sqlStatement, _con) { CommandType = CommandType.StoredProcedure };
 
             try
             {
-                con.Open();
+                _con.Open();
                 ret_val = cmd.ExecuteNonQuery();
-                con.Close();
+                _con.Close();
+                return ret_val;
             }
             catch (Exception ex)
             {
@@ -101,53 +69,29 @@ namespace QIQO.Business.Core
             }
             finally
             {
-                con.Close();
+                _con.Close();
             }
-            return ret_val;
         }
 
-        public virtual int ExecuteNonQuerySQLStatement(string sqlStatement, IEnumerable<SqlParameter> parameters)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual DataTable ExecuteSqlStatementAsDataTable(string sqlStatement)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual DataTable ExecuteSqlStatementAsDataTable(string sqlStatement, IEnumerable<SqlParameter> parameters)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual T ExecuteSqlStatementAsScalar<T>(string sqlStatement)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual int ExecuteNonQuerySQLStatement(string sqlStatement, IEnumerable<SqlParameter> parameters) => throw new NotImplementedException();
+        public virtual DataTable ExecuteSqlStatementAsDataTable(string sqlStatement) => throw new NotImplementedException();
+        public virtual DataTable ExecuteSqlStatementAsDataTable(string sqlStatement, IEnumerable<SqlParameter> parameters) => throw new NotImplementedException();
+        public virtual T ExecuteSqlStatementAsScalar<T>(string sqlStatement) => throw new NotImplementedException();
 
         public virtual T ExecuteSqlStatementAsScalar<T>(string sqlStatement, IEnumerable<SqlParameter> parameters)
         {
-            SqlCommand cmd = new SqlCommand(sqlStatement, con);
-            cmd.CommandType = CommandType.StoredProcedure;
+            var cmd = new SqlCommand(sqlStatement, _con) { CommandType = CommandType.StoredProcedure };
 
-            foreach (SqlParameter sparam in parameters)
-            {
-                SqlParameter param = new SqlParameter();
-                param.ParameterName = sparam.ParameterName;
-                param.Value = sparam.Value;
-                param.DbType = sparam.DbType;
-                param.Direction = sparam.Direction;
-                param.TypeName = sparam.TypeName;
-                cmd.Parameters.Add(param);
-            }
+            foreach (var sparam in parameters)
+                cmd.Parameters.Add(BuildParameter(sparam));
 
             T ret_val;
             try
             {
-                con.Open();
+                _con.Open();
                 ret_val = (T)cmd.ExecuteScalar();
-                con.Close();
+                _con.Close();
+                return ret_val;
             }
             catch (Exception ex)
             {
@@ -156,29 +100,15 @@ namespace QIQO.Business.Core
             }
             finally
             {
-                con.Close();
+                _con.Close();
             }
-            return ret_val;
         }
 
-        public virtual SqlConnection GetConnection()
-        {
-            con = new SqlConnection(conString);
-            return con;
-        }
-
-        public virtual SqlTransaction GetTransaction()
-        {
-            return _trans;
-        }
-
-        public virtual void Dispose()
-        {
-            con.Close();
-        }
-
-        public string Database => con.Database;
-        public string Server => con.DataSource;
+        public virtual SqlConnection GetConnection() => new SqlConnection(_conString);
+        public virtual SqlTransaction GetTransaction() => _trans;
+        public virtual void Dispose() => _con.Close();
+        public string Database => _con.Database;
+        public string Server => _con.DataSource;
 
         protected SqlParameter BuildParameter(SqlParameter sparam)
         {
@@ -194,23 +124,37 @@ namespace QIQO.Business.Core
 
         public SqlDataReader ExecuteProcedureAsSqlDataReader(string procedureName, IEnumerable<SqlParameter> parameters)
         {
-            var cmd = new SqlCommand(procedureName, con);
-            cmd.CommandType = CommandType.StoredProcedure;
+            var cmd = new SqlCommand(procedureName, _con) { CommandType = CommandType.StoredProcedure };
 
             foreach (var sparam in parameters)
-            {
                 cmd.Parameters.Add(BuildParameter(sparam));
+
+            try
+            {
+                _con.Open();
+                return cmd.ExecuteReader(CommandBehavior.CloseConnection);
             }
-            con.Open();
-            return cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                throw ex;
+            }
         }
 
         public SqlDataReader ExecuteProcedureAsSqlDataReader(string procedureName)
         {
-            var cmd = new SqlCommand(procedureName, con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            con.Open();
-            return cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            var cmd = new SqlCommand(procedureName, _con) { CommandType = CommandType.StoredProcedure };
+
+            try
+            {
+                _con.Open();
+                return cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                throw ex;
+            }
         }
 
     }

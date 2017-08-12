@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using QIQO.Business.Accounts.Api.ViewModels;
+using QIQO.Business.Accounts.Proxies;
 
 namespace QIQO.Business.Accounts.Api.Controllers
 {
@@ -8,21 +9,28 @@ namespace QIQO.Business.Accounts.Api.Controllers
     [Route("api/account")]
     public class AccountController : Controller
     {
+        private readonly IAccountService _accountService;
+
+        public AccountController(IAccountService accountService)
+        {
+            _accountService = accountService;
+        }
         // GET: api/Account
         [HttpGet]
         public IEnumerable<AccountViewModel> Get()
         {
-            return new AccountViewModel[] {
-                new AccountViewModel { Account = new Models.Account { AccountName = "Account 1" } },
-                new AccountViewModel { Account = new Models.Account { AccountName = "Account 2" } }
-            };
+            var ret = new List<AccountViewModel>();
+            foreach (var acct in _accountService.GetAccounts())
+                ret.Add(new AccountViewModel { Account = acct });
+
+            return ret;
         }
 
         // GET: api/Account/5
         [HttpGet("{id}", Name = "Get")]
         public AccountViewModel Get(int id)
         {
-            return new AccountViewModel { Account = new Models.Account { AccountName = "Account #1" } };
+            return new AccountViewModel { Account = new Proxies.Models.Account { AccountName = "Account #11" } };
         }
 
         // POST: api/Account

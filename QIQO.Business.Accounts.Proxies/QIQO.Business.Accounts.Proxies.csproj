@@ -5,10 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\QIQO.Business.Accounts.Data\QIQO.Business.Accounts.Data.csproj" />
     <ProjectReference Include="..\QIQO.Business.Core\QIQO.Business.Core.csproj" />
   </ItemGroup>
 
