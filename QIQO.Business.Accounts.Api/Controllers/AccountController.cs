@@ -8,7 +8,7 @@ namespace QIQO.Business.Accounts.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/account")]
-    public class AccountController : Controller
+    public class AccountController : QIQOControllerBase
     {
         private readonly IAccountService _accountService;
 
@@ -20,11 +20,14 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<AccountViewModel>> Get()
         {
-            var ret = new List<AccountViewModel>();
-            foreach (var acct in await _accountService.GetAccountsAsync())
-                ret.Add(new AccountViewModel { Account = acct });
+            return await ExecuteHandledOperationAsync(() =>
+            {
+                var ret = new List<AccountViewModel>();
+                foreach (var acct in _accountService.GetAccountsAsync().Result)
+                    ret.Add(new AccountViewModel { Account = acct });
 
-            return ret;
+                return ret;
+            });
         }
 
         //[HttpGet]
@@ -41,7 +44,10 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpGet("{id}", Name = "Get")]
         public AccountViewModel Get(int id)
         {
-            return new AccountViewModel { Account = new Proxies.Models.Account { AccountName = "Account #11" } };
+            return ExecuteHandledOperation(() =>
+            {
+                return new AccountViewModel { Account = new Proxies.Models.Account { AccountName = "Account #11" } };
+            });            
         }
 
         // POST: api/Account
