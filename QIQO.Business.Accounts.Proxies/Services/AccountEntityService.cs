@@ -1,11 +1,8 @@
-﻿using System;
-using QIQO.Business.Accounts.Data.Entities;
+﻿using QIQO.Business.Accounts.Data.Entities;
 using QIQO.Business.Accounts.Proxies.Models;
-using QIQO.Business.Core.Contracts;
 
 namespace QIQO.Business.Accounts.Proxies.Services
 {
-    public interface IAccountEntityService : IEntityService<Account, AccountData> { }
     public class AccountEntityService : IAccountEntityService
     {
         public Account Map(AccountData ent)

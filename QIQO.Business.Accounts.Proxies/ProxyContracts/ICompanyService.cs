@@ -8,7 +8,7 @@ namespace QIQO.Business.Accounts.Proxies
     public interface ICompanyService : IServiceContract
     {
         List<Company> GetCompanies(Employee emp);
-        int CreateCompany(Company company);
+        int SaveCompany(Company company);
         bool DeleteCompany(Company company);
         Company GetCompany(int company_key);
         string GetEmployeeRoleInCompany(Employee emp); // , Company company
@@ -17,7 +17,7 @@ namespace QIQO.Business.Accounts.Proxies
         bool CompanyDeleteEmployee(Company company, Employee emp);
         
         Task<List<Company>> GetCompaniesAsync(Employee emp);
-        Task<int> CreateCompanyAsync(Company company);
+        Task<int> SaveCompanyAsync(Company company);
         Task<bool> DeleteCompanyAsync(Company company);        
         Task<Company> GetCompanyAsync(int company_key);
         Task<string> GetEmployeeRoleInCompanyAsync(Employee emp); // , Company company

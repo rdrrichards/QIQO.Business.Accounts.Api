@@ -1,8 +1,9 @@
-﻿using System;
+﻿using QIQO.Business.Core.Contracts;
+using System;
 
 namespace QIQO.Business.Accounts.Proxies.Models
 {
-    public class FeeSchedule
+    public class FeeSchedule : IModel
     {
         public int FeeScheduleKey { get; set; }
         public int CompanyKey { get; set; }

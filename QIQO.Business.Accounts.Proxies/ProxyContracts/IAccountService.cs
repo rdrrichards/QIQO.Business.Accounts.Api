@@ -11,7 +11,7 @@ namespace QIQO.Business.Accounts.Proxies
         List<Account> GetAccountsByEmployee(Employee employee);
         List<Account> GetAccountsByCompany(Company company);
         List<Account> GetAccounts();
-        int CreateAccount(Account account);
+        int SaveAccount(Account account);
         bool DeleteAccount(Account account);
         string GetAccountNextNumber(Account account, QIQOEntityNumberType number_type);
         Account GetAccountByCode(string account_code, string company_code);
@@ -21,7 +21,7 @@ namespace QIQO.Business.Accounts.Proxies
         Task<List<Account>> GetAccountsByEmployeeAsync(Employee employee);
         Task<List<Account>> GetAccountsByCompanyAsync(Company company);
         Task<List<Account>> GetAccountsAsync();
-        Task<int> CreateAccountAsync(Account account);
+        Task<int> SaveAccountAsync(Account account);
         Task<bool> DeleteAccountAsync(Account account);
         Task<string> GetAccountNextNumberAsync(Account account, QIQOEntityNumberType number_type);
         Task<Account> GetAccountByCodeAsync(string account_code, string company_code);

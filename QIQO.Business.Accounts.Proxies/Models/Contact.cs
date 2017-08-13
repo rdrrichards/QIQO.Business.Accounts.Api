@@ -1,8 +1,9 @@
-﻿using System;
+﻿using QIQO.Business.Core.Contracts;
+using System;
 
 namespace QIQO.Business.Accounts.Proxies.Models
 {
-    public class Contact
+    public class Contact : IModel
     {
         public int ContactKey { get; set; }
         public int EntityKey { get; set; }

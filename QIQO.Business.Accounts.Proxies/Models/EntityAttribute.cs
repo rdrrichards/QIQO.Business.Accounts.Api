@@ -1,8 +1,9 @@
-﻿using System;
+﻿using QIQO.Business.Core.Contracts;
+using System;
 
 namespace QIQO.Business.Accounts.Proxies.Models
 {
-    public class EntityAttribute
+    public class EntityAttribute : IModel
     {
         public int AttributeKey { get; set; }
         public int EntityKey { get; set; }

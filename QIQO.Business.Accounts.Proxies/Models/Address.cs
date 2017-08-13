@@ -1,8 +1,9 @@
-﻿using System;
+﻿using QIQO.Business.Core.Contracts;
+using System;
 
 namespace QIQO.Business.Accounts.Proxies.Models
 {
-    public class Address
+    public class Address : IModel
     {
         public int AddressKey { get; set; }
         public QIQOAddressType AddressType { get; set; } = QIQOAddressType.Billing;

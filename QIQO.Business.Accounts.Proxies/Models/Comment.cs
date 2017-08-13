@@ -1,8 +1,9 @@
-﻿using System;
+﻿using QIQO.Business.Core.Contracts;
+using System;
 
 namespace QIQO.Business.Accounts.Proxies.Models
 {
-    public class Comment
+    public class Comment : IModel
     {
         public int CommentKey { get; set; }
         public int EntityKey { get; set; }

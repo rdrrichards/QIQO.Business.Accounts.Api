@@ -7,99 +7,112 @@ using System.Threading.Tasks;
 
 namespace QIQO.Business.Accounts.Proxies.Clients
 {
-    public class AccountClient : IAccountService
+    public class AccountClient : ClientBase, IAccountService
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IAccountEntityService _accountEntityService;
+        private readonly ICompanyEntityService _companyEntityService;
+        private readonly IEmployeeEntityService _employeeEntityService;
 
-        public AccountClient(IAccountRepository accountRepository, IAccountEntityService accountEntityService)
+        public AccountClient(IAccountRepository accountRepository, IAccountEntityService accountEntityService,
+            ICompanyEntityService companyEntityService, IEmployeeEntityService employeeEntityService)
         {
             _accountRepository = accountRepository;
             _accountEntityService = accountEntityService;
+            _companyEntityService = companyEntityService;
+            _employeeEntityService = employeeEntityService;
         }
-        public int CreateAccount(Account account)
+        public int SaveAccount(Account account)
         {
-            throw new NotImplementedException();
+            return ExecuteHandledOperation(() => { return _accountRepository.Save(_accountEntityService.Map(account)); });
         }
 
-        public Task<int> CreateAccountAsync(Account account)
+        public Task<int> SaveAccountAsync(Account account)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => SaveAccount(account));
         }
 
         public bool DeleteAccount(Account account)
         {
-            throw new NotImplementedException();
+            return ExecuteHandledOperation(() =>
+            {
+                _accountRepository.Delete(_accountEntityService.Map(account));
+                return true;
+            });
         }
 
         public Task<bool> DeleteAccountAsync(Account account)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => DeleteAccount(account));
         }
 
         public List<Account> FindAccountByCompany(Company company, string pattern)
         {
-            throw new NotImplementedException();
+            return ExecuteHandledOperation(() => { return _accountEntityService.Map(_accountRepository.FindAll(company.CompanyKey, pattern)); });
         }
 
         public Task<List<Account>> FindAccountByCompanyAsync(Company company, string pattern)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => FindAccountByCompanyAsync(company, pattern));
         }
 
         public Account GetAccountByCode(string account_code, string company_code)
         {
-            throw new NotImplementedException();
+            return ExecuteHandledOperation(() => { return _accountEntityService.Map(_accountRepository.GetByCode(account_code, company_code)); });
         }
 
         public Task<Account> GetAccountByCodeAsync(string account_code, string company_code)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => GetAccountByCode(account_code, company_code));
         }
 
         public Account GetAccountByID(int account_key, bool full_load)
         {
-            throw new NotImplementedException();
+            // TODO: Need to handle full load here
+            return ExecuteHandledOperation(() =>
+            {
+                return _accountEntityService.Map(_accountRepository.GetByID(account_key));
+            });
         }
 
         public Task<Account> GetAccountByIDAsync(int account_key, bool full_load)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => GetAccountByID(account_key, full_load));
         }
 
         public string GetAccountNextNumber(Account account, QIQOEntityNumberType number_type)
         {
-            throw new NotImplementedException();
+            return ExecuteHandledOperation(() => { return _accountRepository.GetNextNumber(_accountEntityService.Map(account), (int)number_type); });
         }
 
         public Task<string> GetAccountNextNumberAsync(Account account, QIQOEntityNumberType number_type)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => GetAccountNextNumber(account, number_type));
         }
 
         public List<Account> GetAccountsByCompany(Company company)
         {
-            throw new NotImplementedException();
+            return ExecuteHandledOperation(() => { return _accountEntityService.Map(_accountRepository.GetAll(_companyEntityService.Map(company))); });
         }
 
         public Task<List<Account>> GetAccountsByCompanyAsync(Company company)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => GetAccountsByCompany(company));
         }
 
         public List<Account> GetAccountsByEmployee(Employee employee)
         {
-            throw new NotImplementedException();
+            return ExecuteHandledOperation(() => { return _accountEntityService.Map(_accountRepository.GetAll(_employeeEntityService.Map(employee))); });
         }
 
         public Task<List<Account>> GetAccountsByEmployeeAsync(Employee employee)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => GetAccountsByEmployee(employee));
         }
 
         public List<Account> GetAccounts()
         {
-            return _accountEntityService.Map(_accountRepository.GetAll());
+            return ExecuteHandledOperation(() => { return _accountEntityService.Map(_accountRepository.GetAll()); });
         }
 
         public Task<List<Account>> GetAccountsAsync()
@@ -107,5 +120,4 @@ namespace QIQO.Business.Accounts.Proxies.Clients
             return Task.Run(() => GetAccounts());
         }
     }
-
 }

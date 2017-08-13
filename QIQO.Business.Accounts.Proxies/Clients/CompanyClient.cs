@@ -2,11 +2,24 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using QIQO.Business.Accounts.Proxies.Models;
+using QIQO.Business.Accounts.Data.Interfaces;
+using QIQO.Business.Accounts.Proxies.Services;
 
 namespace QIQO.Business.Accounts.Proxies.Clients
 {
-    public class CompanyClient : ICompanyService
+    public class CompanyClient : ClientBase, ICompanyService
     {
+        private readonly ICompanyRepository _companyRepository;
+        private readonly ICompanyEntityService _companyEntityService;
+        private readonly IEmployeeEntityService _employeeEntityService;
+
+        public CompanyClient(ICompanyRepository companyRepository, ICompanyEntityService companyEntityService,
+            IEmployeeEntityService employeeEntityService)
+        {
+            _companyRepository = companyRepository;
+            _companyEntityService = companyEntityService;
+            _employeeEntityService = employeeEntityService;
+        }
         public int CompanyAddEmployee(Company company, Employee emp, string role, string comment)
         {
             throw new NotImplementedException();
@@ -14,7 +27,7 @@ namespace QIQO.Business.Accounts.Proxies.Clients
 
         public Task<int> CompanyAddEmployeeAsync(Company company, Employee emp, string role, string comment)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => CompanyAddEmployee(company, emp, role, comment));
         }
 
         public bool CompanyDeleteEmployee(Company company, Employee emp)
@@ -24,67 +37,71 @@ namespace QIQO.Business.Accounts.Proxies.Clients
 
         public Task<bool> CompanyDeleteEmployeeAsync(Company company, Employee emp)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => CompanyDeleteEmployee(company, emp));
         }
 
-        public int CreateCompany(Company company)
+        public int SaveCompany(Company company)
         {
-            throw new NotImplementedException();
+            return ExecuteHandledOperation(() => { return _companyRepository.Save(_companyEntityService.Map(company)); });
         }
 
-        public Task<int> CreateCompanyAsync(Company company)
+        public Task<int> SaveCompanyAsync(Company company)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => SaveCompany(company));
         }
 
         public bool DeleteCompany(Company company)
         {
-            throw new NotImplementedException();
+            return ExecuteHandledOperation(() =>
+            {
+                _companyRepository.Delete(_companyEntityService.Map(company));
+                return true;
+            });
         }
 
         public Task<bool> DeleteCompanyAsync(Company company)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => DeleteCompany(company));
         }
 
         public List<Company> GetCompanies(Employee emp)
         {
-            throw new NotImplementedException();
+            return ExecuteHandledOperation(() => { return _companyEntityService.Map(_companyRepository.GetAll(_employeeEntityService.Map(emp))); });
         }
 
         public Task<List<Company>> GetCompaniesAsync(Employee emp)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => GetCompanies(emp));
         }
 
         public Company GetCompany(int company_key)
         {
-            throw new NotImplementedException();
+            return ExecuteHandledOperation(() => { return _companyEntityService.Map(_companyRepository.GetByID(company_key)); });
         }
 
         public Task<Company> GetCompanyAsync(int company_key)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => GetCompany(company_key));
         }
 
         public string GetCompanyNextNumber(Company company, QIQOEntityNumberType number_type)
         {
-            throw new NotImplementedException();
+            return ExecuteHandledOperation(() => { return _companyRepository.GetNextNumber(_companyEntityService.Map(company), (int)number_type); });
         }
 
         public Task<string> GetCompanyNextNumberAsync(Company company, QIQOEntityNumberType number_type)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => GetCompanyNextNumber(company, number_type));
         }
 
         public string GetEmployeeRoleInCompany(Employee emp)
         {
-            throw new NotImplementedException();
+            return string.Empty; // _companyRepository.
         }
 
         public Task<string> GetEmployeeRoleInCompanyAsync(Employee emp)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => GetEmployeeRoleInCompany(emp));
         }
     }
 }
