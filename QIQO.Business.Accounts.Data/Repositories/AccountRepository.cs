@@ -5,7 +5,6 @@ using QIQO.Business.Core.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
 
 namespace QIQO.Business.Accounts.Data.Repositories
 {
@@ -164,5 +163,4 @@ namespace QIQO.Business.Accounts.Data.Repositories
             }
         }
     }
-
 }

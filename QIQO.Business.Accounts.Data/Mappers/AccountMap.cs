@@ -65,5 +65,4 @@ namespace QIQO.Business.Accounts.Data.Mappers
             return sql_params;
         }
     }
-
 }

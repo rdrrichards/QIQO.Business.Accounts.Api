@@ -11,5 +11,4 @@ namespace QIQO.Business.Accounts.Data.Interfaces
         IEnumerable<AccountData> GetAll(PersonData employee);
         IEnumerable<AccountData> FindAll(int company_key, string pattern);
     }
-
 }
