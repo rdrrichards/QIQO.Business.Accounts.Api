@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using QIQO.Business.Accounts.Api.ViewModels;
 using QIQO.Business.Accounts.Proxies;
+using System.Threading.Tasks;
 
 namespace QIQO.Business.Accounts.Api.Controllers
 {
@@ -17,14 +18,24 @@ namespace QIQO.Business.Accounts.Api.Controllers
         }
         // GET: api/Account
         [HttpGet]
-        public IEnumerable<AccountViewModel> Get()
+        public async Task<IEnumerable<AccountViewModel>> Get()
         {
             var ret = new List<AccountViewModel>();
-            foreach (var acct in _accountService.GetAccounts())
+            foreach (var acct in await _accountService.GetAccountsAsync())
                 ret.Add(new AccountViewModel { Account = acct });
 
             return ret;
         }
+
+        //[HttpGet]
+        //public IEnumerable<AccountViewModel> Get()
+        //{
+        //    var ret = new List<AccountViewModel>();
+        //    foreach (var acct in _accountService.GetAccounts())
+        //        ret.Add(new AccountViewModel { Account = acct });
+
+        //    return ret;
+        //}
 
         // GET: api/Account/5
         [HttpGet("{id}", Name = "Get")]

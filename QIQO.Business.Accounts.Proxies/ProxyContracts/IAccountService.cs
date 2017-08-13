@@ -1,6 +1,5 @@
 ﻿using QIQO.Business.Accounts.Proxies.Models;
 using QIQO.Business.Core.Contracts;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -28,5 +27,4 @@ namespace QIQO.Business.Accounts.Proxies
         Task<Account> GetAccountByCodeAsync(string account_code, string company_code);
         Task<List<Account>> FindAccountByCompanyAsync(Company company, string pattern);
     }
-
 }
