@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace QIQO.Business.Accounts.Api.Controllers
 {
     [Produces("application/json")]
-    [Route("api/account")]
+    [Route("api/accounts")]
     public class AccountController : QIQOControllerBase
     {
         private readonly IAccountService _accountService;

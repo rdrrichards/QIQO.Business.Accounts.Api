@@ -9,7 +9,7 @@ namespace QIQO.Business.Accounts.Proxies.Models
         public int AccountKey { get; set; }
         public int CompanyKey { get; set; }
         public QIQOAccountType AccountType { get; set; } = QIQOAccountType.Business;
-        public AccountType AccountTypeData { get; set; } = new AccountType();
+        //public AccountType AccountTypeData { get; set; } = new AccountType();
         public string AccountCode { get; set; }
         public string AccountName { get; set; }
         public string AccountDesc { get; set; }

@@ -17,6 +17,11 @@ namespace QIQO.Business.Accounts.Proxies.Services
                 AccountEndDate = ent.AccountEndDate,
                 AccountKey = ent.AccountKey,
                 AccountType = (QIQOAccountType)ent.AccountTypeKey,
+                AddedUserID = ent.AuditAddUserId,
+                AddedDateTime = ent.AuditAddDatetime,
+                UpdateUserID = ent.AuditUpdateUserId,
+                UpdateDateTime = ent.AuditUpdateDatetime,
+                CompanyKey = ent.CompanyKey,
             };
         }
 

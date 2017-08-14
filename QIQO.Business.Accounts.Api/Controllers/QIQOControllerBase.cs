@@ -9,15 +9,7 @@ namespace QIQO.Business.Accounts.Api.Controllers
     {
         protected Task<T> ExecuteHandledOperationAsync<T>(Func<T> codetoExecute)
         {
-            try
-            {
-                return Task.Run(() => codetoExecute.Invoke());
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"{ex.Source}:{ex.Message}");
-                throw ex;
-            }
+            return Task.Run(() => ExecuteHandledOperation(codetoExecute));
         }
 
         protected T ExecuteHandledOperation<T>(Func<T> codetoExecute)
@@ -31,6 +23,11 @@ namespace QIQO.Business.Accounts.Api.Controllers
                 Log.Error($"{ex.Source}:{ex.Message}");
                 throw ex;
             }
+        }
+
+        protected void ExecuteHandledOperationAsync(Action codetoExecute)
+        {
+            Task.Run(() => ExecuteHandledOperation(codetoExecute));
         }
 
         protected void ExecuteHandledOperation(Action codetoExecute)
