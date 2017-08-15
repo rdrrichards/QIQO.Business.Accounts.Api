@@ -13,14 +13,19 @@ namespace QIQO.Business.Accounts.Proxies.Clients
         private readonly IAccountEntityService _accountEntityService;
         private readonly ICompanyEntityService _companyEntityService;
         private readonly IEmployeeEntityService _employeeEntityService;
+        private readonly IAddressService _addressService;
+        private readonly IFeeScheduleService _feeScheduleService;
 
         public AccountClient(IAccountRepository accountRepository, IAccountEntityService accountEntityService,
-            ICompanyEntityService companyEntityService, IEmployeeEntityService employeeEntityService)
+            ICompanyEntityService companyEntityService, IEmployeeEntityService employeeEntityService,
+            IAddressService addressService, IFeeScheduleService feeScheduleService)
         {
             _accountRepository = accountRepository;
             _accountEntityService = accountEntityService;
             _companyEntityService = companyEntityService;
             _employeeEntityService = employeeEntityService;
+            _addressService = addressService;
+            _feeScheduleService = feeScheduleService;
         }
         public int SaveAccount(Account account)
         {
@@ -112,7 +117,18 @@ namespace QIQO.Business.Accounts.Proxies.Clients
 
         public List<Account> GetAccounts()
         {
-            return ExecuteHandledOperation(() => { return _accountEntityService.Map(_accountRepository.GetAll()); });
+            return ExecuteHandledOperation(() =>
+            {
+                var accounts = _accountEntityService.Map(_accountRepository.GetAll());
+
+                foreach (var account in accounts)
+                {
+                    account.Addresses = _addressService.GetAddressesByEntity(account.AccountKey, QIQOEntityType.Account);
+                    account.FeeSchedules = _feeScheduleService.GetFeeSchedulesByAccount(account);
+                }
+
+                return accounts;
+            });
         }
 
         public Task<List<Account>> GetAccountsAsync()
