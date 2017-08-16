@@ -30,23 +30,14 @@ namespace QIQO.Business.Accounts.Api.Controllers
             });
         }
 
-        //[HttpGet]
-        //public IEnumerable<AccountViewModel> Get()
-        //{
-        //    var ret = new List<AccountViewModel>();
-        //    foreach (var acct in _accountService.GetAccounts())
-        //        ret.Add(new AccountViewModel { Account = acct });
-
-        //    return ret;
-        //}
-
         // GET: api/Account/5
         [HttpGet("{id}", Name = "Get")]
-        public AccountViewModel Get(int id)
+        public async Task<AccountViewModel> Get(int id)
         {
-            return ExecuteHandledOperation(() =>
+            return await ExecuteHandledOperationAsync(() =>
             {
-                return new AccountViewModel { Account = new Proxies.Models.Account { AccountName = "Account #11" } };
+                var account = _accountService.GetAccountByIDAsync(id, true);
+                return new AccountViewModel { Account = account.Result };
             });            
         }
 

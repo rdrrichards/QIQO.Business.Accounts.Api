@@ -76,7 +76,13 @@ namespace QIQO.Business.Accounts.Proxies.Clients
             // TODO: Need to handle full load here
             return ExecuteHandledOperation(() =>
             {
-                return _accountEntityService.Map(_accountRepository.GetByID(account_key));
+                var account = _accountEntityService.Map(_accountRepository.GetByID(account_key));
+                if (full_load)
+                {
+                    account.Addresses = _addressService.GetAddressesByEntity(account.AccountKey, QIQOEntityType.Account);
+                    account.FeeSchedules = _feeScheduleService.GetFeeSchedulesByAccount(account);
+                }
+                return account;
             });
         }
 
@@ -122,10 +128,7 @@ namespace QIQO.Business.Accounts.Proxies.Clients
                 var accounts = _accountEntityService.Map(_accountRepository.GetAll());
 
                 foreach (var account in accounts)
-                {
                     account.Addresses = _addressService.GetAddressesByEntity(account.AccountKey, QIQOEntityType.Account);
-                    account.FeeSchedules = _feeScheduleService.GetFeeSchedulesByAccount(account);
-                }
 
                 return accounts;
             });
