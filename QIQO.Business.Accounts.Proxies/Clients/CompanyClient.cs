@@ -64,6 +64,16 @@ namespace QIQO.Business.Accounts.Proxies.Clients
             return Task.Run(() => DeleteCompany(company));
         }
 
+        public List<Company> GetCompanies()
+        {
+            return ExecuteHandledOperation(() => { return _companyEntityService.Map(_companyRepository.GetAll()); });
+        }
+
+        public Task<List<Company>> GetCompaniesAsync()
+        {
+            return Task.Run(() => GetCompanies());
+        }
+
         public List<Company> GetCompanies(Employee emp)
         {
             return ExecuteHandledOperation(() => { return _companyEntityService.Map(_companyRepository.GetAll(_employeeEntityService.Map(emp))); });

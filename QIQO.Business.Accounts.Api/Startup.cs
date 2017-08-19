@@ -31,6 +31,17 @@ namespace QIQO.Business.Accounts.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AnyOrigin", builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             services.AddScoped<IMainDBContext, MainDBContext>();
             RegisterMaps(services);
             RegisterRepositories(services);
@@ -46,6 +57,7 @@ namespace QIQO.Business.Accounts.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseCors("AnyOrigin");
             app.UseMvc();
         }
 
