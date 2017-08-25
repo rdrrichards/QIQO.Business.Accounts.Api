@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using QIQO.Business.Accounts.Proxies.Models;
 using QIQO.Business.Accounts.Data.Interfaces;

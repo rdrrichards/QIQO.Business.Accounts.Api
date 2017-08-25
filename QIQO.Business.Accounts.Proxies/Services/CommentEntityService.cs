@@ -1,5 +1,4 @@
-﻿using System;
-using QIQO.Business.Accounts.Data.Entities;
+﻿using QIQO.Business.Accounts.Data.Entities;
 using QIQO.Business.Accounts.Proxies.Models;
 
 namespace QIQO.Business.Accounts.Proxies.Services
