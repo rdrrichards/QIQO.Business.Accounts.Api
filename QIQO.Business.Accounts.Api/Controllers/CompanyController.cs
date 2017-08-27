@@ -21,7 +21,7 @@ namespace QIQO.Business.Accounts.Api.Controllers
         }
         // GET: api/companies
         [HttpGet]
-        public async Task<IEnumerable<Company>> Get()
+        public async Task<IActionResult> Get()
         {
             return await ExecuteHandledOperationAsync(() =>
             {
@@ -35,7 +35,7 @@ namespace QIQO.Business.Accounts.Api.Controllers
 
         // GET: api/companies/5
         [HttpGet("{id}/accounts")]
-        public async Task<IEnumerable<AccountViewModel>> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             return await ExecuteHandledOperationAsync(() =>
             {

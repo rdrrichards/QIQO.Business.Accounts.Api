@@ -18,7 +18,7 @@ namespace QIQO.Business.Accounts.Api.Controllers
         }
         // GET: api/Account
         [HttpGet]
-        public async Task<IEnumerable<AccountViewModel>> Get()
+        public async Task<IActionResult> Get()
         {
             return await ExecuteHandledOperationAsync(() =>
             {
@@ -32,7 +32,7 @@ namespace QIQO.Business.Accounts.Api.Controllers
 
         // GET: api/Account/5
         [HttpGet("{id}", Name = "Get")]
-        public async Task<AccountViewModel> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             return await ExecuteHandledOperationAsync(() =>
             {
@@ -43,9 +43,9 @@ namespace QIQO.Business.Accounts.Api.Controllers
 
         // POST: api/Account
         [HttpPost]
-        public async Task<int> Post([FromBody]AccountViewModel value)
+        public async Task<IActionResult> Post([FromBody]AccountViewModel value)
         {
-            return await ExecuteHandledOperation(() =>
+            return await ExecuteHandledOperationAsync(() =>
             {
                 return _accountService.SaveAccountAsync(value.Account);
             });
@@ -53,9 +53,9 @@ namespace QIQO.Business.Accounts.Api.Controllers
 
         // PUT: api/Account/5
         [HttpPut("{id}")]
-        public async Task<int> Put(int id, [FromBody]AccountViewModel value)
+        public async Task<IActionResult> Put(int id, [FromBody]AccountViewModel value)
         {
-            return await ExecuteHandledOperation(() =>
+            return await ExecuteHandledOperationAsync(() =>
             {
                 return _accountService.SaveAccountAsync(value.Account);
             });
@@ -63,9 +63,9 @@ namespace QIQO.Business.Accounts.Api.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public async Task<bool> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return await ExecuteHandledOperation(() =>
+            return await ExecuteHandledOperationAsync(() =>
             {
                 var account = _accountService.GetAccountByIDAsync(id, false);
                 return _accountService.DeleteAccountAsync(account.Result);
