@@ -43,32 +43,32 @@ namespace QIQO.Business.Accounts.Api.Controllers
 
         // POST: api/Account
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]AccountViewModel value)
+        public async Task Post([FromBody]AccountViewModel value)
         {
-            return await ExecuteHandledOperationAsync(() =>
+            await ExecuteHandledOperationAsync(() =>
             {
-                return _accountService.SaveAccountAsync(value.Account);
+                _accountService.SaveAccountAsync(value.Account);
             });
         }
 
         // PUT: api/Account/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]AccountViewModel value)
+        public async Task Put(int id, [FromBody]AccountViewModel value)
         {
-            return await ExecuteHandledOperationAsync(() =>
+            await ExecuteHandledOperationAsync(() =>
             {
-                return _accountService.SaveAccountAsync(value.Account);
+                _accountService.SaveAccountAsync(value.Account);
             });
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task Delete(int id)
         {
-            return await ExecuteHandledOperationAsync(() =>
+            await ExecuteHandledOperationAsync(() =>
             {
                 var account = _accountService.GetAccountByIDAsync(id, false);
-                return _accountService.DeleteAccountAsync(account.Result);
+                _accountService.DeleteAccountAsync(account.Result);
             });
         }
     }

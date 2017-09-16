@@ -26,26 +26,22 @@ namespace QIQO.Business.Accounts.Proxies.Clients
             _addressService = addressService;
             _feeScheduleService = feeScheduleService;
         }
-        public int SaveAccount(Account account)
+        public void SaveAccount(Account account)
         {
-            return ExecuteHandledOperation(() => { return _accountRepository.Save(_accountEntityService.Map(account)); });
+            ExecuteHandledOperation(() => { _accountRepository.Save(_accountEntityService.Map(account)); });
         }
 
-        public Task<int> SaveAccountAsync(Account account)
+        public Task SaveAccountAsync(Account account)
         {
             return Task.Run(() => SaveAccount(account));
         }
 
-        public bool DeleteAccount(Account account)
+        public void DeleteAccount(Account account)
         {
-            return ExecuteHandledOperation(() =>
-            {
-                _accountRepository.Delete(_accountEntityService.Map(account));
-                return true;
-            });
+            ExecuteHandledOperation(() => { _accountRepository.Delete(_accountEntityService.Map(account)); });
         }
 
-        public Task<bool> DeleteAccountAsync(Account account)
+        public Task DeleteAccountAsync(Account account)
         {
             return Task.Run(() => DeleteAccount(account));
         }

@@ -16,26 +16,22 @@ namespace QIQO.Business.Accounts.Proxies.Clients
             _addressRepository = addressRepository;
             _addressEntityService = addressEntityService;
         }
-        public int SaveAddress(Address address)
+        public void SaveAddress(Address address)
         {
-            return ExecuteHandledOperation(() => { return _addressRepository.Save(_addressEntityService.Map(address)); });
+            ExecuteHandledOperation(() => { return _addressRepository.Save(_addressEntityService.Map(address)); });
         }
 
-        public Task<int> SaveAddressAsync(Address address)
+        public Task SaveAddressAsync(Address address)
         {
             return Task.Run(() => SaveAddress(address));
         }
 
-        public bool DeleteAddress(Address address)
+        public void DeleteAddress(Address address)
         {
-            return ExecuteHandledOperation(() =>
-            {
-                _addressRepository.Delete(_addressEntityService.Map(address));
-                return true;
-            });
+            ExecuteHandledOperation(() => { _addressRepository.Delete(_addressEntityService.Map(address));  });
         }
 
-        public Task<bool> DeleteAddressAsync(Address address)
+        public Task DeleteAddressAsync(Address address)
         {
             return Task.Run(() => DeleteAddress(address));
         }

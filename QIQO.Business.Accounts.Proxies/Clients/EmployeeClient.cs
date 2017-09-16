@@ -19,26 +19,22 @@ namespace QIQO.Business.Accounts.Proxies.Clients
             _employeeEntityService = employeeEntityService;
             _companyEntityService = companyEntityService;
         }
-        public int SaveEmployee(Employee employee)
+        public void SaveEmployee(Employee employee)
         {
-            return ExecuteHandledOperation(() => { return _employeeRepository.Save(_employeeEntityService.Map(employee)); });
+            ExecuteHandledOperation(() => { return _employeeRepository.Save(_employeeEntityService.Map(employee)); });
         }
 
-        public Task<int> SaveEmployeeAsync(Employee employee)
+        public Task SaveEmployeeAsync(Employee employee)
         {
             return Task.Run(() => SaveEmployee(employee));
         }
 
-        public bool DeleteEmployee(Employee employee)
+        public void DeleteEmployee(Employee employee)
         {
-            return ExecuteHandledOperation(() =>
-            {
-                _employeeRepository.Delete(_employeeEntityService.Map(employee));
-                return true;
-            });
+            ExecuteHandledOperation(() => { _employeeRepository.Delete(_employeeEntityService.Map(employee)); });
         }
 
-        public Task<bool> DeleteEmployeeAsync(Employee employee)
+        public Task DeleteEmployeeAsync(Employee employee)
         {
             return Task.Run(() => DeleteEmployee(employee));
         }

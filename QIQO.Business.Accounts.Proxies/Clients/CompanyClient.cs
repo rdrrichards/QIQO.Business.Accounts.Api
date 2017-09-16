@@ -20,46 +20,42 @@ namespace QIQO.Business.Accounts.Proxies.Clients
             _companyEntityService = companyEntityService;
             _employeeEntityService = employeeEntityService;
         }
-        public int CompanyAddEmployee(Company company, Employee emp, string role, string comment)
+        public void CompanyAddEmployee(Company company, Employee emp, string role, string comment)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> CompanyAddEmployeeAsync(Company company, Employee emp, string role, string comment)
+        public Task CompanyAddEmployeeAsync(Company company, Employee emp, string role, string comment)
         {
             return Task.Run(() => CompanyAddEmployee(company, emp, role, comment));
         }
 
-        public bool CompanyDeleteEmployee(Company company, Employee emp)
+        public void CompanyDeleteEmployee(Company company, Employee emp)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> CompanyDeleteEmployeeAsync(Company company, Employee emp)
+        public Task CompanyDeleteEmployeeAsync(Company company, Employee emp)
         {
             return Task.Run(() => CompanyDeleteEmployee(company, emp));
         }
 
-        public int SaveCompany(Company company)
+        public void SaveCompany(Company company)
         {
-            return ExecuteHandledOperation(() => { return _companyRepository.Save(_companyEntityService.Map(company)); });
+            ExecuteHandledOperation(() => { return _companyRepository.Save(_companyEntityService.Map(company)); });
         }
 
-        public Task<int> SaveCompanyAsync(Company company)
+        public Task SaveCompanyAsync(Company company)
         {
             return Task.Run(() => SaveCompany(company));
         }
 
-        public bool DeleteCompany(Company company)
+        public void DeleteCompany(Company company)
         {
-            return ExecuteHandledOperation(() =>
-            {
-                _companyRepository.Delete(_companyEntityService.Map(company));
-                return true;
-            });
+            ExecuteHandledOperation(() => { _companyRepository.Delete(_companyEntityService.Map(company)); });
         }
 
-        public Task<bool> DeleteCompanyAsync(Company company)
+        public Task DeleteCompanyAsync(Company company)
         {
             return Task.Run(() => DeleteCompany(company));
         }

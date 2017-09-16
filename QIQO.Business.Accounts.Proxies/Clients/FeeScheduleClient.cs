@@ -21,26 +21,22 @@ namespace QIQO.Business.Accounts.Proxies.Clients
             _accountEntityService = accountEntityService;
             _companyEntityService = companyEntityService;
         }
-        public int SaveFeeSchedule(FeeSchedule fee_schedule)
+        public void SaveFeeSchedule(FeeSchedule fee_schedule)
         {
-            return ExecuteHandledOperation(() => { return _feeScheduleRepository.Save(_feeScheduleEntityService.Map(fee_schedule)); });
+            ExecuteHandledOperation(() => { return _feeScheduleRepository.Save(_feeScheduleEntityService.Map(fee_schedule)); });
         }
 
-        public Task<int> SaveFeeScheduleAsync(FeeSchedule fee_schedule)
+        public Task SaveFeeScheduleAsync(FeeSchedule fee_schedule)
         {
             return Task.Run(() => SaveFeeSchedule(fee_schedule));
         }
 
-        public bool DeleteFeeSchedule(FeeSchedule fee_schedule)
+        public void DeleteFeeSchedule(FeeSchedule fee_schedule)
         {
-            return ExecuteHandledOperation(() =>
-            {
-                _feeScheduleRepository.Delete(_feeScheduleEntityService.Map(fee_schedule));
-                return true;
-            });
+            ExecuteHandledOperation(() => {_feeScheduleRepository.Delete(_feeScheduleEntityService.Map(fee_schedule)); });
         }
 
-        public Task<bool> DeleteFeeScheduleAsync(FeeSchedule fee_schedule)
+        public Task DeleteFeeScheduleAsync(FeeSchedule fee_schedule)
         {
             return Task.Run(() => DeleteFeeSchedule(fee_schedule));
         }
