@@ -23,10 +23,10 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return await ExecuteHandledOperationAsync(() =>
+            return await ExecuteHandledOperationAsync(async () =>
             {
                 var ret = new List<Company>();
-                foreach (var acct in _companyService.GetCompaniesAsync().Result)
+                foreach (var acct in await _companyService.GetCompaniesAsync())
                     ret.Add(acct);
 
                 return ret;
@@ -37,12 +37,12 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpGet("{id}/accounts")]
         public async Task<IActionResult> Get(int id)
         {
-            return await ExecuteHandledOperationAsync(() =>
+            return await ExecuteHandledOperationAsync(async () =>
             {
-                var company = _companyService.GetCompanyAsync(id);
+                var company = await _companyService.GetCompanyAsync(id);
 
                 var ret = new List<AccountViewModel>();
-                foreach (var acct in _accountService.GetAccountsByCompanyAsync(company.Result).Result)
+                foreach (var acct in await _accountService.GetAccountsByCompanyAsync(company))
                     ret.Add(new AccountViewModel { Account = acct });
 
                 return ret;

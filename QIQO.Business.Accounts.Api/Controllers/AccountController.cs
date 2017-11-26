@@ -20,10 +20,10 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return await ExecuteHandledOperationAsync(() =>
+            return await ExecuteHandledOperationAsync(async () =>
             {
                 var ret = new List<AccountViewModel>();
-                foreach (var acct in _accountService.GetAccountsAsync().Result)
+                foreach (var acct in await _accountService.GetAccountsAsync())
                     ret.Add(new AccountViewModel { Account = acct });
 
                 return ret;
@@ -34,10 +34,10 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> Get(int id)
         {
-            return await ExecuteHandledOperationAsync(() =>
+            return await ExecuteHandledOperationAsync(async () =>
             {
-                var account = _accountService.GetAccountByIDAsync(id, true);
-                return new AccountViewModel { Account = account.Result };
+                var account = await _accountService.GetAccountByIDAsync(id, true);
+                return new AccountViewModel { Account = account };
             });            
         }
 
@@ -45,9 +45,9 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpPost]
         public async Task Post([FromBody]AccountViewModel value)
         {
-            await ExecuteHandledOperationAsync(() =>
+            await ExecuteHandledOperationAsync(async () =>
             {
-                _accountService.SaveAccountAsync(value.Account);
+                await _accountService.SaveAccountAsync(value.Account);
             });
         }
 
@@ -55,9 +55,9 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody]AccountViewModel value)
         {
-            await ExecuteHandledOperationAsync(() =>
+            await ExecuteHandledOperationAsync(async () =>
             {
-                _accountService.SaveAccountAsync(value.Account);
+                await _accountService.SaveAccountAsync(value.Account);
             });
         }
 
@@ -65,10 +65,10 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpDelete("{id}")]
         public async Task Delete(int id)
         {
-            await ExecuteHandledOperationAsync(() =>
+            await ExecuteHandledOperationAsync(async () =>
             {
-                var account = _accountService.GetAccountByIDAsync(id, false);
-                _accountService.DeleteAccountAsync(account.Result);
+                var account = await _accountService.GetAccountByIDAsync(id, false);
+                await _accountService.DeleteAccountAsync(account);
             });
         }
     }
