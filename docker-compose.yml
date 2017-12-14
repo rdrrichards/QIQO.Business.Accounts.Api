@@ -4,5 +4,5 @@ services:
   qiqo.business.accounts.api:
     image: qiqo.business.accounts.api
     build:
-      context: ./QIQO.Business.Accounts.Api
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: QIQO.Business.Accounts.Api/Dockerfile
