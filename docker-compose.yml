@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   qiqo.business.accounts.api:
-    image: qiqo.business.accounts.api
+    image: ${DOCKER_REGISTRY}qiqobusinessaccountsapi
     build:
       context: .
       dockerfile: QIQO.Business.Accounts.Api/Dockerfile

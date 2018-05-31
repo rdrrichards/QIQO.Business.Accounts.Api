@@ -34,11 +34,8 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> Get(int id)
         {
-            return await ExecuteHandledOperationAsync(async () =>
-            {
-                var account = await _accountService.GetAccountByIDAsync(id, true);
-                return new AccountViewModel { Account = account };
-            });            
+            var account = await _accountService.GetAccountByIDAsync(id, true);
+            return Ok(new AccountViewModel { Account = account });
         }
 
         // POST: api/Account

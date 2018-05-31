@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Business.Core", "QIQO.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Business.Accounts.Proxies", "QIQO.Business.Accounts.Proxies\QIQO.Business.Accounts.Proxies.csproj", "{E87E72F8-A878-450A-9310-9F9A6EC4797E}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E5A36BE2-6500-4ED1-9B7C-8A96E03D2FC8}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9F47268A-A40B-4D64-A0BE-221263D7742A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,10 +40,10 @@ Global
 		{E87E72F8-A878-450A-9310-9F9A6EC4797E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E87E72F8-A878-450A-9310-9F9A6EC4797E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E87E72F8-A878-450A-9310-9F9A6EC4797E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E5A36BE2-6500-4ED1-9B7C-8A96E03D2FC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E5A36BE2-6500-4ED1-9B7C-8A96E03D2FC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E5A36BE2-6500-4ED1-9B7C-8A96E03D2FC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E5A36BE2-6500-4ED1-9B7C-8A96E03D2FC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F47268A-A40B-4D64-A0BE-221263D7742A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F47268A-A40B-4D64-A0BE-221263D7742A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F47268A-A40B-4D64-A0BE-221263D7742A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F47268A-A40B-4D64-A0BE-221263D7742A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

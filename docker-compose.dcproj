@@ -3,9 +3,9 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>e5a36be2-6500-4ed1-9b7c-8a96e03d2fc8</ProjectGuid>
-    <DockerLaunchBrowser>false</DockerLaunchBrowser>
-    <DockerServiceUrl>http://localhost:{ServicePort}/api/account</DockerServiceUrl>
+    <ProjectGuid>9f47268a-a40b-4d64-a0be-221263d7742a</ProjectGuid>
+    <DockerLaunchAction>None</DockerLaunchAction>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/account</DockerServiceUrl>
     <DockerServiceName>qiqo.business.accounts.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
@@ -14,6 +14,5 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
-    <None Include="docker-compose.ci.build.yml" />
   </ItemGroup>
 </Project>
