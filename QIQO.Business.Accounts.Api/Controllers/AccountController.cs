@@ -20,14 +20,11 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return await ExecuteHandledOperationAsync(async () =>
-            {
-                var ret = new List<AccountViewModel>();
-                foreach (var acct in await _accountService.GetAccountsAsync())
-                    ret.Add(new AccountViewModel { Account = acct });
+            var ret = new List<AccountViewModel>();
+            foreach (var acct in await _accountService.GetAccountsAsync())
+                ret.Add(new AccountViewModel { Account = acct });
 
-                return ret;
-            });
+            return Ok(ret);
         }
 
         // GET: api/Account/5
@@ -42,31 +39,22 @@ namespace QIQO.Business.Accounts.Api.Controllers
         [HttpPost]
         public async Task Post([FromBody]AccountViewModel value)
         {
-            await ExecuteHandledOperationAsync(async () =>
-            {
-                await _accountService.SaveAccountAsync(value.Account);
-            });
+            await _accountService.SaveAccountAsync(value.Account);
         }
 
         // PUT: api/Account/5
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody]AccountViewModel value)
         {
-            await ExecuteHandledOperationAsync(async () =>
-            {
-                await _accountService.SaveAccountAsync(value.Account);
-            });
+            await _accountService.SaveAccountAsync(value.Account);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public async Task Delete(int id)
         {
-            await ExecuteHandledOperationAsync(async () =>
-            {
-                var account = await _accountService.GetAccountByIDAsync(id, false);
-                await _accountService.DeleteAccountAsync(account);
-            });
+            var account = await _accountService.GetAccountByIDAsync(id, false);
+            await _accountService.DeleteAccountAsync(account);
         }
     }
 }
