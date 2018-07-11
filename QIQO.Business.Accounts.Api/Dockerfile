@@ -1,8 +1,8 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.1.2-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM microsoft/dotnet:2.1.2-sdk AS build
 WORKDIR /src
 COPY QIQO.Business.Accounts.Api/QIQO.Business.Accounts.Api.csproj QIQO.Business.Accounts.Api/
 COPY QIQO.Business.Accounts.Proxies/QIQO.Business.Accounts.Proxies.csproj QIQO.Business.Accounts.Proxies/
