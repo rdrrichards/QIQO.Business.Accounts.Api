@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using QIQO.Business.Accounts.Proxies;
 using QIQO.Business.Accounts.Proxies.Clients;
 using QIQO.Business.Accounts.Data;
@@ -49,17 +48,11 @@ namespace QIQO.Business.Accounts.Api
             RegisterClientProxies(services);
 
             services.AddMvc();
-            //services.AddMvc().AddJsonOptions(
-            //    options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            //);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            //loggerFactory.AddDebug();
-
             app.UseCors("AnyOrigin");
             app.UseMvc();
         }
